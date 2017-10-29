@@ -1,7 +1,7 @@
-function JSONgenerator()
-{
-    var new_value=document.getElementById("value").value;
+function JSONgenerator(){
     var new_key=document.getElementById("key").value;
+    var new_value=document.getElementById("value").value;
+    
     if(new_value==null || new_key==null)
     {
         alert("Ingrese datos válidos");
@@ -25,4 +25,7 @@ function JSONEncrypt()
     var payload=localStorage.getItem("JSON");
     var secret='TOPSECRET';
     jwt.encode(secret,payload);
+}
+function JSONItem(key, value){
+	return {"key": key, "value": value};
 }
