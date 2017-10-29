@@ -1,5 +1,16 @@
 extends layout
 
 block content
+  head
+  script(src='/javascripts/encrypt.js')
   h1= title
   p Welcome to #{title}
+  feldset
+  div.controls
+  label(for='key',class='control-label')
+  input(type='text',id='key',name='key',placeholder='key',class='input-xlarge')
+  div.controls
+  label(for='value',class='control-label')
+  input(type='text',id='value',name='value',placeholder='value',class='input-xlarge')
+  div.control-group  
+  button(id="btn1" name="btn1" class="btn btn-info" onclick="JSONgenerator()") Encriptar JSON
