@@ -1,3 +1,5 @@
+var jwt = require('jwt-simple');
+
 function JSONgenerator(){
     var new_key=document.getElementById("key").value;
     var new_value=document.getElementById("value").value;
