@@ -1,8 +1,8 @@
 function JSONgenerator()
 {
-    var value=document.getElementById("value").value;
-    var key=document.getElementById("key").value;
-    if(value==null || key==null)
+    var new_value=document.getElementById("value").value;
+    var new_key=document.getElementById("key").value;
+    if(new_value==null || new_key==null)
     {
         alert("Ingrese datos válidos");
         return;
@@ -14,12 +14,15 @@ function JSONgenerator()
 		localStorage.setItem("JSON", strJSON);
     }
     var JSON_obj = JSON.parse(localStorage.getItem("JSON"));
-	JSON_obj["key-value-pairs"].push(JSONItem(key, value));
+	JSON_obj["key-value-pairs"].push(JSONItem(new_key, new_value));
 	var strJSON = JSON.stringify(JSON_obj);
 	localStorage.setItem("JSON", strJSON);
 	alert("El registro se agregó correctamente");	
 }
 function JSONEncrypt()
 {
-    
+    var jwt=require('json-web-token')
+    var payload=localStorage.getItem("JSON");
+    var secret='TOPSECRET';
+    jwt.encode(secret,payload);
 }
