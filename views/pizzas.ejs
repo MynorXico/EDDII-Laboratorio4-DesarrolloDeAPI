@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pizzas</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</head>
+<body>
+	<h1>Pizzas</h1>
+	<h3>Registro de pizzas</h3>
+	<form>
+		<button type="submit" method="get" formaction="/pizzas/crear">Crear Nueva</button>
+	</form>
+	<table class ="table" style="width:100%">
+		<tr>
+			<th>Nombre</th>
+			<th>Tipo de Masa</th>
+		</tr>
+		<%for (var i = 0; i < data.length; i++){%>
+			<tr>
+				<td><%= data[i].nombre %></td>
+				<td><%= data[i].tipoMasa %></td>
+				<td><a href="pizzas/<%=data[i].id%>">Editar</a></td>
+				<td><a href="pizza/<%=data[i].id%>?_method=DELETE">Eliminar</a></td>
+			</tr>
+		<% } %>
+	</ul>
+</body>
+</html>

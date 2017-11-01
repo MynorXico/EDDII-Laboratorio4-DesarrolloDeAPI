@@ -1,0 +1,19 @@
+<html>
+	<head>
+		
+	</head>
+	<body>		
+		<form>
+			Nombre de Pizza:<br>
+			<input name=nombre value=<%if(data){ %><%- data.nombre%><%}%>></input><br>
+			Tipo de Masa:<br>
+			<input name=tipoMasa value=<%if(data){ %><%- data.tipoMasa%><%}%>></input>
+			<button type="submit" formmethod="post" formaction=	<%   if(!data){    %>
+																	"/pizzas"
+															    <%   }else{         %>
+																	"/pizza/<%=data.id%>?_method=PUT"
+																<%	}              %>
+																	>Crear</button>
+		</form>
+	</body>
+</html>

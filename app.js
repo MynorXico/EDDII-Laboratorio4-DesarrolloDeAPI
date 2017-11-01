@@ -1,0 +1,115 @@
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var Pizza = require('./Pizza.model');
+
+var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
+
+mongoose.connect(db);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+
+var port = 5000;
+
+app.get('/', function(req, res){
+	res.redirect("/pizzas");
+});
+
+app.get('/pizzas', function(req, res){
+	console.log("getting all pizzas");
+
+	Pizza.find({}).exec(function(err, pizzas){
+		if(err){
+			console.log("an error has ocurred");
+		}else{
+			console.log(pizzas);
+			//res.json(pizzas);
+			res.render('pizzas.ejs', {data: pizzas});
+		}
+	});
+});
+
+app.use(function(req, res, next){
+	if(req.query._method == 'DELETE'){
+		req.method = 'DELETE';
+		req.url = req.path;
+	}else if(req.query._method == 'PUT'){
+		req.method='PUT';
+		req.url = req.path;
+	}
+	next();
+});
+
+app.get('/pizzas/:id', function(req, res){
+	if(req.params.id=="crear"){ //  pizzas/crear
+		return res.render('crear.ejs', {data: null});
+	}
+	console.log('getting one pizza');
+	Pizza.findOne({
+		_id: req.params.id
+	}).exec(function(err, pizza){
+		if(err){
+			res.send("ocurred an error");
+		}else{
+			console.log(pizza);
+			res.render('crear.ejs', {data: pizza});
+		}
+	});
+});
+
+
+app.post('/pizzas', function(req, res){
+	console.log("===============================================");
+	Pizza.create(req.body, function(err, pizza){
+		if(err){
+			res.send("Error");
+		}else{
+			res.redirect("/pizzas");
+		}
+	});
+});
+
+app.put('/pizza/:id', function(req, res){
+	Pizza.findOneAndUpdate({
+		_id: req.params.id
+	},{
+		$set:{nombre: req.body.nombre}
+	},{upsert: true},
+		function(err, newPizza){
+			if(err)
+				console.log("an error occured");
+			else{
+				console.log(newPizza);
+				res.redirect("/pizzas");
+			}
+		}
+	);
+});
+
+app.delete('/pizza/:id', function(req, res){
+	Pizza.findOneAndRemove({
+		_id: req.params.id
+	}, function(err, pizza){
+		if(err)
+			 res.send("error");
+		else{
+			Pizza.find({}).exec(function(err, pizzas){
+				if(err){
+					console.log("an error has ocurred");
+				}else{
+					console.log(pizzas);
+					//res.json(pizzas);
+					res.redirect("/pizzas");
+				}
+			});
+		}
+	});
+});
+
+app.listen(port, function(){
+	console.log("server is up!");
+});
