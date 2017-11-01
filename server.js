@@ -18,12 +18,14 @@ app.engine('html', cons.swig);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
-app.listen(5000, function () {
+app.listen(3000, function () {
 	console.log("server is up");
-})
+});
+
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname + '/server/views/index.html'));
 });
+
 app.get('/createPizza', function (req, res) {
 	res.sendFile(path.join(__dirname + '/server/views/createPizza.html'));
 });
@@ -31,6 +33,7 @@ app.get('/createPizza', function (req, res) {
 app.get('/pizza', function (req, res, next) {
 	res.render(__dirname + '/server/views/pizzaIndex');
 });
+
 app.post('/post-data', function (req, res) {
 	var newNombre = req.body.nombre;
 	var newApellido = req.body.apellido;
@@ -46,7 +49,7 @@ app.post('/postPizza',function(req,res)
 	var nombre=req.body.nombre;
 	console.log("llega hasta aca");
 	res.render(path.join(__dirname + '/server/views/index.html'));
-})
+});
 app.get('/get-ciphered', function (req, res) {
 	var ciphered = jwt.encode(serverData, secretword);
 	var toAdd = '<textarea class=container rows="4" cols="50">' + ciphered + '</textarea>'
