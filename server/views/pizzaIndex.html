@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html>
 
 <head>
@@ -6,27 +8,56 @@
         crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 
-<body class=container>
+<body>
     <div class="topnav" id=myNavbar>
         <!--Meter esto en un html aparte*-->
-        <a href='/pizza'>Pizza</a>
-        <a href='/'>Home</a>
+        <li>
+            <a href='/'>Home</a>
+        </li>
+        <li>
+            <a href='/pizza'>Pizza</a>
+        </li>
+
     </div>
-    <h1>Pizzas</h1>
+
     <form class="container">
-            <div class="form-group">
-                    <label class="col-md-4 control-label" for="btn1"></label>
-                    <div class="col-md-8">
-                        <button id="btn2" name="btn2" class="btn btn-info"  formaction="/createPizza" formmethod="get">Crear pizza</button>
-                    </div>
+        <h1>Pizzas</h1>
+        <div class="form-group">
+            <label class="col-md-8 control-label" for="btn1"></label>
+            <div class="col-md-8">
+                <input type="text" name="search" placeholder="Search..">
+                <input type="submit" value="Buscar" formaction="/">
+                <br>
+                <br>
+                <button id="btn2" name="btn2" class="btn btn-info" formaction="/createPizza" formmethod="get">Crear pizza</button>
             </div>
+            <div>
+                <table class="table" style="width:100%">
+                  
+                    <%for (var i = 0; i < data.length; i++){%>
+                        <tr>
+                            <td>
+                                <%= data[i].pizza.Nombre %>
+                            </td>
+                            <td>
+                                <%= data[i].pizza.Descripcion %>
+                            </td>
+                            <td>
+                                <a href="pizzas/<%=data[i].id%>">Editar</a>
+                            </td>
+                            <td>
+                                <a href="pizza/<%=data[i].id%>?_method=DELETE">Eliminar</a>
+                            </td>
+                        </tr>
+                  
+
+                </table>
+            </div>
+        </div>
     </form>
-
-
-
-
 
 </body>
 

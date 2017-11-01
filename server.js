@@ -10,6 +10,7 @@ var cheerio = require('cheerio');
 var cons = require('consolidate');
 var dataController = require('./server/controllers/data-controller');
 var serverData = [];
+var allPizzas=[];
 //app settings
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -31,7 +32,7 @@ app.get('/createPizza', function (req, res) {
 });
 
 app.get('/pizza', function (req, res, next) {
-	res.render(__dirname + '/server/views/pizzaIndex');
+	res.render(__dirname + '/server/views/pizzaIndex',{data:allPizzas});
 });
 
 app.post('/post-data', function (req, res) {
@@ -47,8 +48,25 @@ app.post('/post-data', function (req, res) {
 app.post('/postPizza',function(req,res)
 {
 	var nombre=req.body.nombre;
-	console.log("llega hasta aca");
-	res.render(path.join(__dirname + '/server/views/index.html'));
+	var desc=req.body.desc;
+	var ingredientes=req.body.section;
+	var masa=req.body.tipoMasa;
+	var trozos=req.body.trozos;
+	var conqueso=req.body.conQ
+	if(conqueso==undefined)
+	{
+		conqueso=0;
+	}
+	var pizza={
+		Nombre:nombre,
+		Descripcion:desc,
+		Ingredientes:ingredientes,
+		Masa:masa,
+		Trozos:trozos,
+		ExtraQueso:conqueso
+	};
+	allPizzas.push(pizza);
+	res.render(path.join(__dirname + '/server/views/pizzaIndex.html'),{data:allPizzas});
 });
 app.get('/get-ciphered', function (req, res) {
 	var ciphered = jwt.encode(serverData, secretword);
