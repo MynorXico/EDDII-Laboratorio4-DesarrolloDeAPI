@@ -88,6 +88,7 @@ app.get('/get-ciphered', function (req, res) {
 });
 app.get('/pizza/:Nombre',function(req,res)
 {
+	console.log("getting a pizza");
 	var k=req.params.Nombre;
 	for(var i=0;i<allPizzas.length;i++)
 	{
@@ -135,18 +136,35 @@ app.post('/Update/:Nombre',function(req,res)
 	}
 });
 
-app.delete('/pizza/:Nombre',function(req,res)
+app.use('/deletePizza/:id',function(req, res, next){
+	console.log("verifiying method");
+	if(req.query._method == 'DELETE'){
+		console.log("deleting");
+		req.method = 'DELETE';
+		req.url = req.path;
+	}else if(req.query._method == 'PUT'){
+		req.method='PUT';
+		req.url = req.path;
+	}
+	next();
+});
+
+
+app.delete('/deletePizza/:Nombre',function(req,res)
 {
+	console.log("deleting " + req.params.Nombre);
 	var index=0;
 	for(var i=0;i<allPizzas.length;i++)
 	{
 		if(allPizzas[i].Nombre==req.params.Nombre)
 		{
+			console.log("item " +i);
 			index=i;
 		}
 	}
-	allPizzas.splice(index,1);
-	return res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas});
+	console.log("allPizzas");
+	allPizzas.splice(index, 1);
+	return res.redirect('/pizza');
 });
 
 app.get('/api/get-data', function (req, res) {
