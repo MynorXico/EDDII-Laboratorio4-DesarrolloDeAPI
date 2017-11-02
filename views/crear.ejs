@@ -1,19 +1,100 @@
 <html>
-	<head>
-		
-	</head>
-	<body>		
-		<form>
-			Nombre de Pizza:<br>
-			<input name=nombre value=<%if(data){ %><%- data.nombre%><%}%>></input><br>
-			Tipo de Masa:<br>
-			<input name=tipoMasa value=<%if(data){ %><%- data.tipoMasa%><%}%>></input>
-			<button type="submit" formmethod="post" formaction=	<%   if(!data){    %>
-																	"/pizzas"
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="topnav" id=myNavbar>
+        <li>
+            <a href='/'>Home</a>
+        </li>
+    </div>
+    <form class="container" method="post" action="/postPizza">
+        <legend class="col-md-8">Ingreso de Datos</legend>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="key">Nombre</label>
+            <div class="col-md-8">
+                <input id="nombre" name="nombre" type="text" placeholder="nombre de la pizza" class="form-control input-md" autocomplete=off required="" value=<%if(data){ %><%- data.nombre%><%}%>                    >
+                <span class="help-block">Ingrese el nombre de la pizza</span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="key">Descripción</label>
+            <div class="col-md-8">
+                <input id="descripcion" name="descripcion" type="text" placeholder="Descripción" class="form-control input-md" autocomplete=off required="" value=<%if(data){ %><%- data.descripcion%> <%}%>>
+                <span class="help-block">Ingrese una breve descripción</span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="key">Seleccione los ingredientes</label>
+            <div class="col-md-8">
+                <label class="checkbox-inline" >
+                    <input type="checkbox"  name="ingredientes[]" value="Cebolla" <%if (data) {if(data.ingredientes.includes('Cebolla')){%>checked <%}}%> />Cebolla</label>
+
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="ingredientes[]" value="Jamon" <%if (data) {if(data.ingredientes.includes('Jamon')){%>checked <%}}%> />Jamón</label>
+
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="ingredientes[]" value="Pepperoni"<%if (data) {if(data.ingredientes.includes('Pepperoni')){%>checked <%}}%> />Pepperoni</label>
+
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="ingredientes[]" value="Champiñones" <%if (data) {if(data.ingredientes.includes('Champiñones')){%>checked <%}}%>  />Champiñones</label>
+
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="ingredientes[]" value="Aceitunas" <%if (data) {if(data.ingredientes.includes('Aceitunas')){%>checked <%}}%>  />Aceitunas</label>
+
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="key">Tipo de masa</label>
+            <div class="col-md-8">
+                <input id="tipoMasa" name="tipoMasa" type="text" placeholder="nombre de la pizza" class="form-control input-md" autocomplete=off required="" value=<%if(data){ %><%- data.tipoMasa%><%}%>
+                    >
+                <span class="help-block">Ingrese el tipo de masa de la pizza</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="key">Número de trozos</label>
+            <div class="col-md-8">
+                <input id="porciones" type="number" name="porciones" step="1" min="4" max="12" value=<%if(data){ %><%- data.porciones%><%}else{%>1<%}%>     required list="defaultNumbers" >
+                <span class="validity"></span>
+                <datalist id="defaultNumbers">
+                    <option value="4">
+                        <option value="6">
+                            <option value="8">
+                                <option value="10">
+                                    <option value="12">
+                </datalist>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="key">Extra queso</label>
+            <div class="col-md-8">
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="quesoExtra" <%if (data) {if(data.quesoExtra){%>checked <%}}%>  />Extra queso</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8">
+                <input type="submit" formmethod="post" formaction=	<%   if(!data){    %>
+																	"/pizzas" value="Crear pizza"
 															    <%   }else{         %>
-																	"/pizza/<%=data.id%>?_method=PUT"
-																<%	}              %>
-																	>Crear</button>
-		</form>
-	</body>
+																	"/pizza/<%=data.id%>?_method=PUT" value="Actualizar pizza"
+																<%	}              %> type="submit"  >
+            </div>
+        </div>
+
+    </form>
+</body>
+
 </html>

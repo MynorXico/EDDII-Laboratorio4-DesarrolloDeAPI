@@ -1,29 +1,66 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-	<title>Pizzas</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
+
 <body>
-	<h1>Pizzas</h1>
-	<h3>Registro de pizzas</h3>
-	<form>
-		<button type="submit" method="get" formaction="/pizzas/crear">Crear Nueva</button>
-	</form>
-	<table class ="table" style="width:100%">
-		<tr>
-			<th>Nombre</th>
-			<th>Tipo de Masa</th>
-		</tr>
-		<%for (var i = 0; i < data.length; i++){%>
-			<tr>
-				<td><%= data[i].nombre %></td>
-				<td><%= data[i].tipoMasa %></td>
-				<td><a href="pizzas/<%=data[i].id%>">Editar</a></td>
-				<td><a href="pizza/<%=data[i].id%>?_method=DELETE">Eliminar</a></td>
-			</tr>
-		<% } %>
-	</ul>
+	 <div class="topnav" id=myNavbar>
+        <!--Meter esto en un html aparte*-->
+        <li>
+            <a href='/'>Home</a>
+        </li>
+
+    </div>
+    <form class="container">
+        <h1>Pizzas</h1>
+        <div class="form-group">
+            <label class="col-md-8 control-label" for="btn1"></label>
+            <div class="col-md-8">
+                <div>
+                        <input type="text" name="search" id="search" placeholder="Search..">
+                        <input type="submit" value="Buscar" formaction="/pizza/buscar" formmethod="post">
+                </div>
+               
+                <br>
+                <br>
+                <button id="btn2" name="btn2" class="btn btn-info" formaction="/pizzas/crear" method="get">Crear pizza</button>
+            </div>
+            <div>
+                <table class="table" style="width:100%">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Ingredientes</th>
+                        <th>Masa</th>
+                        <th>Trozos</th>
+                        <th>Con extra queso</th>
+                        
+                    </tr>
+                    <%for (var i = 0; i < data.length; i++){%>
+                        <tr>
+                            <td><%= data[i].nombre %></td>
+                            <td><%= data[i].descripcion %></td>
+                            <td><%= data[i].ingredientes %></td>
+                            <td><%= data[i].tipoMasa %></td>
+                            <td><%= data[i].porciones %></td>
+                            <td><%= data[i].quesoExtra %></td>
+                            <td><a href="pizzas/<%=data[i].id%>">Editar</a></td>
+                            <td><a href="pizza/<%=data[i].id%>?_method=DELETE">Eliminar</a></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+    </form>
+
 </body>
+
 </html>

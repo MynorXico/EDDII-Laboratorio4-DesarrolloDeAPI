@@ -6,13 +6,12 @@ var Pizza = require('./Pizza.model');
 
 var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
 
-mongoose.connect(db);
+var db = mongoose.connect(db);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
-
 var port = 5000;
 
 app.get('/', function(req, res){
@@ -64,6 +63,7 @@ app.get('/pizzas/:id', function(req, res){
 
 app.post('/pizzas', function(req, res){
 	console.log("===============================================");
+	req.body.quesoExtra = req.body.quesoExtra != undefined;
 	Pizza.create(req.body, function(err, pizza){
 		if(err){
 			res.send("Error");
@@ -72,12 +72,26 @@ app.post('/pizzas', function(req, res){
 		}
 	});
 });
-
+app.post('/pizza/:params', function(req, res){
+	if(req.params.params=="buscar"){
+		Pizza.find({
+		nombre: req.body.search
+	}).exec(function(err, pizzas){
+		if(err){
+			res.send("ocurred an error");
+		}else{
+			res.render('pizzas.ejs', {data: pizzas});
+		}
+	});
+	}
+});
 app.put('/pizza/:id', function(req, res){
+	
+	req.body.quesoExtra = req.body.quesoExtra != undefined;
 	Pizza.findOneAndUpdate({
 		_id: req.params.id
 	},{
-		$set:{nombre: req.body.nombre}
+		$set:req.body
 	},{upsert: true},
 		function(err, newPizza){
 			if(err)
