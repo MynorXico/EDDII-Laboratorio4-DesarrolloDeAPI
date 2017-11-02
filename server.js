@@ -103,6 +103,8 @@ app.get('/pizza/:Nombre',function(req,res)
 
 app.post('/Update/:Nombre',function(req,res)
 {
+    console.log("------------");
+    console.log(k);
 	var k=req.params.Nombre;
 	var nombre=req.body.nombre;
 	var desc=req.body.desc;
@@ -135,6 +137,8 @@ app.post('/Update/:Nombre',function(req,res)
 		}
 	}
 });
+
+
 
 app.use('/deletePizza/:id',function(req, res, next){
 	console.log("verifiying method");
