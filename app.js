@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Pizza = require('./Pizza.model');
 
-var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
-
+//var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
+var db = "mongodb://localhost/myapp";
 var db = mongoose.connect(db);
 
 app.use(bodyParser.json());
@@ -52,7 +52,7 @@ app.get('/pizzas/:id', function(req, res){
 		_id: req.params.id
 	}).exec(function(err, pizza){
 		if(err){
-			res.send("ocurred an error");
+			res.render("404NotFound.ejs");
 		}else{
 			console.log(pizza);
 			res.render('crear.ejs', {data: pizza});
