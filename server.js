@@ -52,13 +52,8 @@ app.post('/postPizza',function(req,res)
 	var masa=req.body.tipoMasa;
 	var trozos=req.body.trozos;
 	var conqueso=req.body.conQ
-	if(conqueso==undefined)
-	{
-		conqueso="no";
-	}
-	else{
-		conqueso="si";
-	}
+	conqueso=undefined?'No':'Si';
+	
 	var pizza={
 		Nombre:nombre,
 		Descripcion:desc,
@@ -110,13 +105,7 @@ app.post('/Update/:Nombre',function(req,res)
 	var masa=req.body.tipoMasa;
 	var trozos=req.body.trozos;
 	var conqueso=req.body.conQ
-	if(conqueso==undefined)
-	{
-		conqueso="no";
-	}
-	else{
-		conqueso="si";
-	}
+	conqueso=undefined?'No':'Si';
 	var pizza={
 		Nombre:nombre,
 		Descripcion:desc,
