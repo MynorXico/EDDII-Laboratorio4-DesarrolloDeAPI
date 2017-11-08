@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Pizza = require('./Pizza.model');
 
-//var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
-var db = "mongodb://localhost/myapp";
+var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
+//var db = "mongodb://localhost/myapp";
 var db = mongoose.connect(db);
 
 app.use(bodyParser.json());
