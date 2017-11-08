@@ -62,7 +62,6 @@ app.get('/pizzas/:id', function(req, res){
 
 
 app.post('/pizzas', function(req, res){
-	console.log("===============================================");
 	req.body.quesoExtra = req.body.quesoExtra != undefined;
 	Pizza.create(req.body, function(err, pizza){
 		if(err){
