@@ -10,7 +10,7 @@ var cheerio = require('cheerio');
 var cons = require('consolidate');
 var dataController = require('./server/controllers/data-controller');
 var serverData = [];
-var allPizzas=[];
+var allPizzas = [];
 //app settings
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,7 +30,7 @@ app.get('/createPizza', function (req, res) {
 });
 
 app.get('/pizza', function (req, res, next) {
-	res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas});
+	res.render(__dirname + '/server/views/pizzaIndex.ejs', { data: allPizzas });
 });
 
 app.post('/post-data', function (req, res) {
@@ -44,23 +44,22 @@ app.post('/post-data', function (req, res) {
 	return res.redirect('/');
 });
 
-app.post('/postPizza',function(req,res)
-{
-	var nombre=req.body.nombre;
-	var desc=req.body.desc;
-	var ingredientes=req.body.section;
-	var masa=req.body.tipoMasa;
-	var trozos=req.body.trozos;
-	var conqueso=req.body.conQ
-	conqueso=undefined?'No':'Si';
-	
-	var pizza={
-		Nombre:nombre,
-		Descripcion:desc,
-		Ingredientes:ingredientes,
-		Masa:masa,
-		Trozos:trozos,
-		ExtraQueso:conqueso
+app.post('/postPizza', function (req, res) {
+	var nombre = req.body.nombre;
+	var desc = req.body.desc;
+	var ingredientes = req.body.section;
+	var masa = req.body.tipoMasa;
+	var trozos = req.body.trozos;
+	var conqueso = req.body.conQ
+	conqueso = undefined ? 'No' : 'Si';
+
+	var pizza = {
+		Nombre: nombre,
+		Descripcion: desc,
+		Ingredientes: ingredientes,
+		Masa: masa,
+		Trozos: trozos,
+		ExtraQueso: conqueso
 	};
 	allPizzas.push(pizza);
 	return res.redirect('/pizza');
@@ -82,76 +81,71 @@ app.get('/get-ciphered', function (req, res) {
 		res.send($.html());
 	});
 });
-app.get('/pizza/:Nombre',function(req,res)
-{
-	
-	var k=req.params.Nombre;
-	console.log("getting a pizza: "+k);
-	for(var i=0;i<allPizzas.length;i++)
-	{
-		if(allPizzas[i].Nombre==k)
-		{
+app.get('/pizza/:Nombre', function (req, res) {
+
+	var k = req.params.Nombre;
+	console.log("getting a pizza: " + k);
+	for (var i = 0; i < allPizzas.length; i++) {
+		if (allPizzas[i].Nombre == k) {
 			//llamar a la vista  de editar
-			return res.render(path.join(__dirname + '/server/views/edit.ejs'),{key:k,data:allPizzas[i]});
+			return res.render(path.join(__dirname + '/server/views/edit.ejs'), { key: k, data: allPizzas[i] });
 		}
 	}
-	return res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas});//Aqui si no encuentra nada enviar un error
+	var err=new Error('Not Found')
+	err.status=(404);	
+	console.log(err.message);
+	res.send(k+" no se ha encontrado");
+	//Aqui si no encuentra nada enviar un error
 });
 
-app.post('/Update/:Nombre',function(req,res)
-{
-	var k=req.params.Nombre;
-	console.log('Editando: '+k);
-	var nombre=req.body.nombre;
-	var desc=req.body.desc;
-	var ingredientes=req.body.section;
-	var masa=req.body.tipoMasa;
-	var trozos=req.body.trozos;
-	var conqueso=req.body.conQ
-	conqueso=undefined?'No':'Si';
-	var pizza={
-		Nombre:nombre,
-		Descripcion:desc,
-		Ingredientes:ingredientes,
-		Masa:masa,
-		Trozos:trozos,
-		ExtraQueso:conqueso
+app.post('/Update/:Nombre', function (req, res) {
+	var k = req.params.Nombre;
+	console.log('Editando: ' + k);
+	var nombre = req.body.nombre;
+	var desc = req.body.desc;
+	var ingredientes = req.body.section;
+	var masa = req.body.tipoMasa;
+	var trozos = req.body.trozos;
+	var conqueso = req.body.conQ
+	conqueso = undefined ? 'No' : 'Si';
+	var pizza = {
+		Nombre: nombre,
+		Descripcion: desc,
+		Ingredientes: ingredientes,
+		Masa: masa,
+		Trozos: trozos,
+		ExtraQueso: conqueso
 	};
-	for(var i=0;i<allPizzas.length;i++)
-	{
-		if(allPizzas[i].Nombre==k)
-		{
+	for (var i = 0; i < allPizzas.length; i++) {
+		if (allPizzas[i].Nombre == k) {
 			//llamar a la vista  de editar
-		  allPizzas[i]=pizza;
-		  return res.redirect('/pizza');//Aqui si no encuentra nada enviar un error
+			allPizzas[i] = pizza;
+			return res.redirect('/pizza');// Aqui se deberia mandar un stats success o algo asi
 		}
 	}
 });
 
-app.use('/deletePizza/:id',function(req, res, next){
+app.use('/deletePizza/:id', function (req, res, next) {
 	console.log("verifiying method");
-	if(req.query._method == 'DELETE'){
+	if (req.query._method == 'DELETE') {
 		console.log("deleting");
 		req.method = 'DELETE';
 		req.url = req.path;
-	}else if(req.query._method == 'PUT'){
-		req.method='PUT';
+	} else if (req.query._method == 'PUT') {
+		req.method = 'PUT';
 		req.url = req.path;
 	}
 	next();
 });
 
 
-app.delete('/deletePizza/:Nombre',function(req,res)
-{
+app.delete('/deletePizza/:Nombre', function (req, res) {
 	console.log("deleting " + req.params.Nombre);
-	var index=0;
-	for(var i=0;i<allPizzas.length;i++)
-	{
-		if(allPizzas[i].Nombre==req.params.Nombre)
-		{
-			console.log("item " +i);
-			index=i;
+	var index = 0;
+	for (var i = 0; i < allPizzas.length; i++) {
+		if (allPizzas[i].Nombre == req.params.Nombre) {
+			console.log("item " + i);
+			index = i;
 		}
 	}
 	console.log("allPizzas");
@@ -166,43 +160,42 @@ app.get('/api/get-data', function (req, res) {
 });
 
 
-function sendPizza(pizza,res)
-{
-   return res.render(__dirname + '/server/views/view.ejs',{data:pizza});
+function sendPizza(pizza, res) {
+	return res.render(__dirname + '/server/views/view.ejs', { data: pizza });
 }
-app.post('/Buscar',function(req,res)
-{
-	var busqueda=req.body.search;
+app.post('/Buscar', function (req, res) {
+	var busqueda = req.body.search;
 	console.log(busqueda);
-	for(var i=0;i<allPizzas.length;i++)
-	{
-		if(allPizzas[i].Nombre==busqueda)
-		{
-		  return res.render(__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
+	for (var i = 0; i < allPizzas.length; i++) {
+		if (allPizzas[i].Nombre == busqueda) {
+			return res.render(__dirname + '/server/views/view.ejs', { data: allPizzas[i] });
 		}
 	}
-   return res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas}); //aqui agregar el not found*/
+	var err=new Error('Not Found')
+	err.status=(404);	
+	console.log(err.message);
+	res.send(busqueda+" no se ha encontrado");
+	//return res.render(__dirname + '/server/views/pizzaIndex.ejs', { data: allPizzas }); //aqui agregar el not found*/
 
 });
 
-app.get('/Buscar/:Nombre',function(req,res)
-{
-	var busqueda=req.params.Nombre;
+app.get('/Buscar/:Nombre', function (req, res) {
+	var busqueda = req.params.Nombre;
 	console.log(busqueda);
-	for(var i=0;i<allPizzas.length;i++)
-	{
-		if(allPizzas[i].Nombre==busqueda)
-		{
-			return res.render(__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
-		//return res.redirect(sendPizza(allPizzas[i],res)); //__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
+	for (var i = 0; i < allPizzas.length; i++) {
+		if (allPizzas[i].Nombre == busqueda) {
+			return res.render(__dirname + '/server/views/view.ejs', { data: allPizzas[i] });
+			//return res.redirect(sendPizza(allPizzas[i],res)); //__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
 		}
 	}
-   return res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas}); //aqui agregar el not found*/
+	var err=new Error('Not Found')
+	err.status=(404);	
+	console.log(err.message);
+	res.send(busqueda+" no se ha encontrado");
+	//return res.render(__dirname + '/server/views/pizzaIndex.ejs', { data: allPizzas }); //aqui agregar el not found*/
 
 });
-app.use('pizza/:Nombre',function(req,res)
-{
-	res.render
-});
+
+
 
 
