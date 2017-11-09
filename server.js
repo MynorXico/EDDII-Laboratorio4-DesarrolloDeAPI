@@ -14,12 +14,16 @@ var allPizzas = [];
 //app settings
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//app.use(app.router());
 //engine settings
 
-
-app.listen(3000, function () {
+app.listen( 3000,function () {
 	console.log("server is up");
 });
+/*app.use('*',function(req, res) {
+	res.send('404: Page not Found', 404);
+ });*/
+
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname + '/server/views/index.html'));
