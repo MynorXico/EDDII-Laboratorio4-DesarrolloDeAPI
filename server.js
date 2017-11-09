@@ -55,7 +55,8 @@ app.post('/postPizza', function (req, res) {
 	var masa = req.body.tipoMasa;
 	var trozos = req.body.trozos;
 	var conqueso = req.body.conQ
-	conqueso = undefined ? 'No' : 'Si';
+	console.log(conqueso);
+	conqueso = conqueso==undefined ? 'No' : 'Si';
 
 	var pizza = {
 		Nombre: nombre,
@@ -111,7 +112,8 @@ app.post('/Update/:Nombre', function (req, res) {
 	var masa = req.body.tipoMasa;
 	var trozos = req.body.trozos;
 	var conqueso = req.body.conQ
-	conqueso = undefined ? 'No' : 'Si';
+	console.log(conqueso);
+	conqueso = conqueso==undefined ? 'No' : 'Si';
 	var pizza = {
 		Nombre: nombre,
 		Descripcion: desc,
