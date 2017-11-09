@@ -6,7 +6,12 @@ var Pizza = require('./Pizza.model');
 
 var db = "mongodb://admin:password@ds241025.mlab.com:41025/datastructures";
 //var db = "mongodb://localhost/myapp";
-var db = mongoose.connect(db);
+var db = mongoose.connect(db, function(err){
+	if(err){
+		console.log("Ocurrió un error al intentar conectar a la base de datos.");
+		console.log("Intente montar la base de datos de manera local.");
+	}
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -14,22 +19,25 @@ app.use(bodyParser.urlencoded({
 }));
 var port = 5000;
 
-app.get('/', function(req, res){
-	res.redirect("/pizzas");
+app.get('/:params', function(req, res){
+	if(req.params.params == "pizzas" || !req.params.params){
+		console.log("getting all pizzas");
+		
+			Pizza.find({}).exec(function(err, pizzas){
+				if(err){
+					console.log("an error has ocurred");
+				}else{
+					console.log(pizzas);
+					//res.json(pizzas);
+					res.render('pizzas.ejs', {data: pizzas});
+				}
+			});	}
+	if(req.params.params != "pizzas")
+		res.redirect("/pizzas");		
 });
 
-app.get('/pizzas', function(req, res){
-	console.log("getting all pizzas");
-
-	Pizza.find({}).exec(function(err, pizzas){
-		if(err){
-			console.log("an error has ocurred");
-		}else{
-			console.log(pizzas);
-			//res.json(pizzas);
-			res.render('pizzas.ejs', {data: pizzas});
-		}
-	});
+app.get('/', function(req, res){
+	res.redirect('/a');
 });
 
 app.use(function(req, res, next){
