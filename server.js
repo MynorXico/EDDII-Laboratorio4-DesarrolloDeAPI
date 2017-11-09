@@ -63,7 +63,8 @@ app.post('/postPizza',function(req,res)
 		ExtraQueso:conqueso
 	};
 	allPizzas.push(pizza);
-	res.render(path.join(__dirname + '/server/views/pizzaIndex.ejs'),{data:allPizzas});
+	return res.redirect('/pizza');
+	//res.render(path.join(__dirname + '/server/views/pizzaIndex.ejs'),{data:allPizzas});
 });
 app.get('/get-ciphered', function (req, res) {
 	var ciphered = jwt.encode(serverData, secretword);
@@ -83,8 +84,9 @@ app.get('/get-ciphered', function (req, res) {
 });
 app.get('/pizza/:Nombre',function(req,res)
 {
-	console.log("getting a pizza");
+	
 	var k=req.params.Nombre;
+	console.log("getting a pizza: "+k);
 	for(var i=0;i<allPizzas.length;i++)
 	{
 		if(allPizzas[i].Nombre==k)
@@ -99,6 +101,7 @@ app.get('/pizza/:Nombre',function(req,res)
 app.post('/Update/:Nombre',function(req,res)
 {
 	var k=req.params.Nombre;
+	console.log('Editando: '+k);
 	var nombre=req.body.nombre;
 	var desc=req.body.desc;
 	var ingredientes=req.body.section;
@@ -120,7 +123,7 @@ app.post('/Update/:Nombre',function(req,res)
 		{
 			//llamar a la vista  de editar
 		  allPizzas[i]=pizza;
-		  return res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas});//Aqui si no encuentra nada enviar un error
+		  return res.redirect('/pizza');//Aqui si no encuentra nada enviar un error
 		}
 	}
 });
@@ -163,7 +166,10 @@ app.get('/api/get-data', function (req, res) {
 });
 
 
-
+function sendPizza(pizza,res)
+{
+   return res.render(__dirname + '/server/views/view.ejs',{data:pizza});
+}
 app.post('/Buscar',function(req,res)
 {
 	var busqueda=req.body.search;
@@ -187,9 +193,16 @@ app.get('/Buscar/:Nombre',function(req,res)
 	{
 		if(allPizzas[i].Nombre==busqueda)
 		{
-		  return res.render(__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
+			return res.render(__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
+		//return res.redirect(sendPizza(allPizzas[i],res)); //__dirname + '/server/views/view.ejs',{data:allPizzas[i]});
 		}
 	}
    return res.render(__dirname + '/server/views/pizzaIndex.ejs',{data:allPizzas}); //aqui agregar el not found*/
 
 });
+app.use('pizza/:Nombre',function(req,res)
+{
+	res.render
+});
+
+

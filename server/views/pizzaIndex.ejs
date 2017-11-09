@@ -56,13 +56,11 @@
                             <td><%= data[i].Masa %></td>
                             <td><%= data[i].Trozos %></td>
                             <td><%= data[i].ExtraQueso %></td>
-                            <td><a href="Buscar/<%=data[i].Nombre%>">Ver</a></td>
+                            <td><a href="/Buscar/<%=data[i].Nombre%>">Ver</a></td>
                             <td><a href="pizza/<%=data[i].Nombre%>">Editar</a></td>
                             <td><a href="deletePizza/<%=data[i].Nombre%>?_method=DELETE">Eliminar</a></td>
                         </tr>
                     <% } %>
-                  
-
                 </table>
             </div>
         </div>
